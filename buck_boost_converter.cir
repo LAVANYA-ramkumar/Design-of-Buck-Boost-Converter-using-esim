@@ -1,0 +1,27 @@
+* /home/19e620/eSim-Workspace/buck_boost_converter/buck_boost_converter.cir
+
+* EESchema Netlist Version 1.1 (Spice format) creation date: Fri 07 Oct 2022 07:57:52 PM IST
+
+* To exclude a component from the Spice Netlist add [Spice_Netlist_Enabled] user FIELD set to: N
+* To reorder the component spice node sequence add [Spice_Node_Sequence] user FIELD and define sequence: 2,1,0
+
+* Sheet Name: /
+v1  clk GND pulse		
+U3  clk Net-_U3-Pad2_ adc_bridge_1		
+U4  Net-_U4-Pad1_ pwm dac_bridge_1		
+SC1  vin pwm Net-_SC1-Pad3_ Net-_SC1-Pad3_ sky130_fd_pr__nfet_01v8		
+SC3  vout GND sky130_fd_pr__cap_mim_m3_2		
+scmode1  SKY130mode		
+SC5  GND Net-_SC1-Pad3_ 50mH		
+v2  vin GND DC		
+U2  clk plot_v1		
+U5  pwm plot_v1		
+U6  vin plot_v1		
+U7  vout plot_v1		
+SC4  GND vout vout sky130_fd_pr__res_generic_pd		
+SC2  vout Net-_SC1-Pad3_ sky130_fd_pr__diode		
+U1  ? ? lav_pwm		
+U8  Net-_U3-Pad2_ Net-_U4-Pad1_ lav_pwm		
+U9  Net-_SC1-Pad3_ GND plot_i2		
+
+.end

@@ -1,0 +1,53 @@
+* /home/19e620/esim-workspace/buck_boost_converter/buck_boost_converter.cir
+
+.include "/usr/share/local/sky130_fd_pr/models/sky130_fd_pr__model__linear.model.spice"
+.include "/usr/share/local/sky130_fd_pr/models/sky130_fd_pr__model__diode_pd2nw_11v0.model.spice"
+.include "/usr/share/local/sky130_fd_pr/models/sky130_fd_pr__model__diode_pw2nd_11v0.model.spice"
+.include "/usr/share/local/sky130_fd_pr/models/sky130_fd_pr__model__r+c.model.spice"
+.include "/usr/share/local/sky130_fd_pr/models/sky130_fd_pr__model__pnp.model.spice"
+.include "/usr/share/local/sky130_fd_pr/models/sky130_fd_pr__model__inductors.model.spice"
+.lib "/usr/share/local/sky130_fd_pr/models/sky130.lib.spice" tt
+v1  clk gnd pulse(0 1.8 1n 1n 1n 1m 2m)
+* u3  clk net-_u3-pad2_ adc_bridge_1
+* u4  net-_u4-pad1_ pwm dac_bridge_1
+xsc1 vin pwm net-_sc1-pad3_ net-_sc1-pad3_ sky130_fd_pr__nfet_01v8 
+xsc3 vout gnd sky130_fd_pr__cap_mim_m3_2 W=1000 L=1500
+* s c m o d e
+xsc5 gnd net-sc1-pad3 gnd 0 sky130_fd_pr__ind_05_125
+v2 vin gnd  dc 1.8
+* u2  clk plot_v1
+* u5  pwm plot_v1
+* u6  vin plot_v1
+* u7  vout plot_v1
+xsc4 gnd vout vout sky130_fd_pr__res_generic_pd 
+xsc2 net-sc1-pad3 net-sc1-pad3 vout vout sky130_fd_pr__nfet_01v8 
+* u1  ? ? lav_pwm
+* u8  net-_u3-pad2_ net-_u4-pad1_ lav_pwm
+* u9  net-_sc1-pad3_ gnd plot_i2
+a1 [clk ] [net-_u3-pad2_ ] u3
+a2 [net-_u4-pad1_ ] [pwm ] u4
+a3 [? ] [? ] u1
+a4 [net-_u3-pad2_ ] [net-_u4-pad1_ ] u8
+v_u9 net-_sc1-pad3_ gnd 0
+* Schematic Name:                             adc_bridge_1, NgSpice Name: adc_bridge
+.model u3 adc_bridge(in_low=1.0 in_high=2.0 rise_delay=1.0e-9 fall_delay=1.0e-9 ) 
+* Schematic Name:                             dac_bridge_1, NgSpice Name: dac_bridge
+.model u4 dac_bridge(out_low=0.0 out_high=5.0 out_undef=0.5 input_load=1.0e-12 t_rise=1.0e-9 t_fall=1.0e-9 ) 
+* Schematic Name:                             lav_pwm, NgSpice Name: lav_pwm
+.model u1 lav_pwm(rise_delay=1.0e-9 fall_delay=1.0e-9 input_load=1.0e-12 instance_id=1 ) 
+* Schematic Name:                             lav_pwm, NgSpice Name: lav_pwm
+.model u8 lav_pwm(rise_delay=1.0e-9 fall_delay=1.0e-9 input_load=1.0e-12 instance_id=1 ) 
+.tran 0.001e-00 0.1e-00 0e-00
+
+* Control Statements 
+.control
+run
+print allv > plot_data_v.txt
+print alli > plot_data_i.txt
+plot v(clk)
+plot v(pwm)
+plot v(vin)
+plot v(vout)
+plot i(v_u9)
+.endc
+.end
